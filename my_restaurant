@@ -1,0 +1,106 @@
+-- Restaurant 
+
+-- D1: MENU
+CREATE TABLE menu (
+    menu_id INT PRIMARY KEY NOT NULL,
+    menu_name TEXT,
+    menu_price INT
+  );
+
+INSERT INTO menu VALUES 
+    (1, 'Pizza',120 ),
+    (2, 'Burger',90 ),
+    (3, 'Fries',60),
+    (4, 'Soft drinks',40 ),
+    (5, 'Vanilla Ice-cream',50 );
+
+-- D2: BRANCH
+CREATE TABLE branch (
+    branch_id INT PRIMARY KEY NOT NULL ,
+    branch_name TEXT
+);
+
+INSERT INTO branch VALUES 
+   (1,'The Street'),
+   (2,'Central Rama9'),
+   (3,'Emquartier');
+
+-- D3: EMPLOYEE
+CREATE TABLE employee (
+	em_id INT PRIMARY KEY UNIQUE,
+  	em_name TEXT,
+    em_lastname TEXT,
+    branch_id INT,
+ 	em_salary TEXT,
+);
+
+INSERT INTO employee VALUES 
+	(1, 'Jane','Doe',1, 16000),
+  	(2, 'Luca','Ronald',2, 16000),
+    (3, 'Theo','Messi',3, 19000);
+
+
+-- D4: CUSTOMER
+CREATE TABLE customer (
+    cus_id INT PRIMARY KEY NOT NULL,
+    cus_name CHAR,
+	cus_gender CHAR,
+    cus_lname CHAR,
+);
+INSERT INTO customers VALUES   
+    (1, 'Lisa','Dilma','F','32'),
+  	(2, 'Daisy','Choi','F','19'),
+    (3, 'Deen','Deluca','M','41'),
+    (4, 'Lee','Jordan','M','26'),
+    (5, 'Will','Smith','M','29');
+  
+-- D5: PAY METHOD
+CREATE TABLE pay (
+   pay_id INT PRIMARY KEY NOT NULL,
+   pay_method TEXT,
+);
+
+INSERT INTO payment VALUES 
+    (1, 'Cash'),
+    (2, 'Credit Card'),
+    (3, 'Promtpay');
+
+	
+-- F1: ORDER
+CREATE TABLE orders (
+    ord_id INT NOT NULL PRIMARY KEY,
+	ord_date date
+    cus_id INT,
+    menu_id INT,
+    branch_id INT,
+    pay_id INT,
+    amount INT,
+    FOREIGN KEY (cus_id) REFERENCES customer(cus_id),
+    FOREIGN KEY (menu_id) REFERENCES menu(menu_id),
+    FOREIGN KEY (branch_id) REFERENCES branch(branch_id),
+    FOREIGN KEY (em_id) REFERENCES employee(em_id),
+    FOREIGN KEY (pay_id) REFERENCES payment(pay_id)
+);
+
+INSERT INTO orders VALUES 
+    (1 ,2022-01-02 ,5 ,2 ,3 ,1 ,1 ) ,
+    (2 ,2022-01-04 ,4 ,4 ,2 ,1 ,2 ) ,
+    (3 ,2022-01-06 ,3 ,2 ,2 ,1 ,1 ) ,
+    (4 ,2022-01-28 ,2 ,3 ,2 ,2 ,1 ) ,
+    (5 ,2022-01-29 ,1 ,1 ,1 ,2 ,1 ) ,
+    (6 ,2022-02-07 ,3 ,1 ,1 ,1 ,1 ) ,
+    (7 ,2022-02-07 ,3 ,4 ,3 ,3 ,2 ) ,
+    (8 ,2022-02-07 ,2 ,5 ,1 ,3 ,1 ) ,
+    (9 ,2022-02-09 ,1 ,5 ,2 ,1 ,1 ) ;
+
+-- Q1: Top Spender in January 2022
+-- Q2: Most favourite menu 2022
+-- Q3: Top sales branch 2022
+
+
+select orders.menu_name, 
+	count(orders.menu_id)*orders.amount Total_orders
+From orders
+Left Join menu_name on orders.menu_id = menu.menu_id
+group by menu.menu_name
+order by Total_orders desc;
