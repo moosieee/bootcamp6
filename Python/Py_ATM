@@ -1,0 +1,110 @@
+{
+ "cells": [
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# ATM - OOP concept"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class ATM():\n",
+    "    def __init__(self, name:str, pin:int(4), balance:int):\n",
+    "        self.name = name\n",
+    "        self.pin = pin\n",
+    "        self.balance = balance\n",
+    "    def update_name(self,new_name):\n",
+    "        self.name = new_name\n",
+    "        print(f\"Your account has been updated\",\n",
+    "              \"\\nNew Account: {self.name}\")\n",
+    "    def update_pin(self,new_pin):\n",
+    "        self.pin = new_pin\n",
+    "        print(\"PIN has been updated\") \n",
+    "    def deposit(self, value:int):\n",
+    "        self.balance += value\n",
+    "        print(f\"Deposit successful\",\n",
+    "              \"\\nTotal Balance is {self.balance} USD\")\n",
+    "    def check_balance(self):\n",
+    "        print(f\"Balance of {self.name} is {self.balance} USD\")\n",
+    "    def withdraw(self, value:int):\n",
+    "        self.balance -= value\n",
+    "        print(f\"Withdrawal successful\",\n",
+    "              \"\\nTotal Balance is {self.balance} USD\")"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Transaction"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['Me', 1212, 10000]\n"
+     ]
+    }
+   ],
+   "source": [
+    "acc1 = ATM(\"Me\",1212,10000)\n",
+    "print([acc1.name,acc1.pin,acc1.balance])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Deposit successful \n",
+      "Total Balance is {self.balance} USD\n",
+      "15000\n"
+     ]
+    }
+   ],
+   "source": [
+    "acc1.deposit(5000)\n",
+    "print(acc1.balance)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.6"
+  },
+  "orig_nbformat": 4
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
