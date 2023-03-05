@@ -83,24 +83,58 @@ CREATE TABLE orders (
 );
 
 INSERT INTO orders VALUES 
-    (1 ,2022-01-02 ,5 ,2 ,3 ,1 ,1 ) ,
-    (2 ,2022-01-04 ,4 ,4 ,2 ,1 ,2 ) ,
-    (3 ,2022-01-06 ,3 ,2 ,2 ,1 ,1 ) ,
-    (4 ,2022-01-28 ,2 ,3 ,2 ,2 ,1 ) ,
-    (5 ,2022-01-29 ,1 ,1 ,1 ,2 ,1 ) ,
-    (6 ,2022-02-07 ,3 ,1 ,1 ,1 ,1 ) ,
-    (7 ,2022-02-07 ,3 ,4 ,3 ,3 ,2 ) ,
-    (8 ,2022-02-07 ,2 ,5 ,1 ,3 ,1 ) ,
-    (9 ,2022-02-09 ,1 ,5 ,2 ,1 ,1 ) ;
+    (1 ,20220102 ,5 ,2 ,3 ,1 ,1 ) ,
+    (2 ,20220104 ,4 ,4 ,2 ,1 ,2 ) ,
+    (3 ,20220106 ,3 ,2 ,2 ,1 ,1 ) ,
+    (4 ,20220128 ,2 ,3 ,2 ,2 ,1 ) ,
+    (5 ,20220129 ,1 ,1 ,1 ,2 ,1 ) ,
+    (6 ,20220207 ,3 ,1 ,1 ,1 ,1 ) ,
+    (7 ,20220207 ,3 ,4 ,3 ,3 ,2 ) ,
+    (8 ,20220207 ,2 ,5 ,1 ,3 ,1 ) ,
+    (9 ,20220209 ,1 ,5 ,2 ,1 ,1 ) ;
 
 -- Q1: Top Spender in January 2022
--- Q2: Most favourite menu 2022
--- Q3: Top sales branch 2022
+-- Q2: Most favourite menu in 2022
+-- Q3: Top sales branch in 2022
 
+SELECT
+	customer.cus_name, 
+	count(orders.menu_id)*menu.menu_price*orders.amount AS Spent
+FROM orders, customer, menu
+Left Join customer_name on orders.cus_id = customer.cus_id
+WHERE strftime('%Y%m', orders.ord_date) = '202201'
+GROUP BY custmer.cus_name
+ORDER BY Spent DESC;
 
-select orders.menu_name, 
-	count(orders.menu_id)*orders.amount Total_orders
-From orders
+SELECT 
+	menu.menu_name, 
+	count(orders.menu_id)*orders.amount AS Total_orders
+FROM orders, menu
 Left Join menu_name on orders.menu_id = menu.menu_id
 group by menu.menu_name
 order by Total_orders desc;
+
+SELECT 	
+	orders.branch_id,
+	count(orders.menu_id)*menu_price*orders.amount AS Sales
+FROM orders, menu, branch
+Left Join branch_name on orders.branch_id = branch.branch_id
+group by branch.branch_name
+order by Sales desc;
+	
+-- UPDATE ITEM
+update menu
+set menu_name = 'Vanilla Soft-serve'
+where menu_id = 5;
+
+-- NEW BRANCH
+create table new_branch (
+    branch_id INT PRIMARY KEY NOT NULL ,
+    branch_name TEXT
+);
+INSERT INTO new_branch VALUES 
+   (4,'Terminal21');
+   
+SELECT * from branch
+UNION
+select * from new_branch;
